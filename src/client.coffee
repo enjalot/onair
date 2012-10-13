@@ -8,11 +8,7 @@ process.nextTick ->
 
 racer.on 'ready', (model) ->
 
-  console.log("HIIII", ui)
-  
-
   #editor = document.getElementById 'editor'
-
   ## Update the model in response to DOM events ##
 
   applyChange = (newval) ->
@@ -46,7 +42,7 @@ racer.on 'ready', (model) ->
     ]
     #scrollTop = editor.scrollTop
     #editor.value = newText
-    ui.model.set("code", newText)
+    #ui.model.set("code", newText)
     ui.editor.cm.setValue(newText)
 
     #editor.scrollTop = scrollTop if editor.scrollTop != scrollTop
@@ -65,6 +61,7 @@ racer.on 'ready', (model) ->
   genOp = (e) ->
     setTimeout ->
       editorvalue = ui.model.get("code")
+      console.log("prev vs new", editorvalue != prevValue)
       if editorvalue != prevValue
         prevValue = editorvalue
         applyChange editorvalue.replace /\r\n/g, '\n'
