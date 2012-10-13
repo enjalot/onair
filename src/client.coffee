@@ -8,12 +8,17 @@ process.nextTick ->
 
 racer.on 'ready', (model) ->
 
-  editor = document.getElementById 'editor'
+  console.log("HIIII", ui)
+  
+
+  #editor = document.getElementById 'editor'
 
   ## Update the model in response to DOM events ##
 
   applyChange = (newval) ->
     oldval = model.get '_room.text'
+    console.log("old", oldval, "new", newval)
+
     return if oldval == newval
     commonStart = 0
     commonStart++ while oldval.charAt(commonStart) == newval.charAt(commonStart)
@@ -30,38 +35,47 @@ racer.on 'ready', (model) ->
       model.otInsert '_room.text', commonStart,
         newval.substr commonStart, newval.length - commonEnd
 
-  editor.disabled = false
-  prevvalue = editor.value = model.get '_room.text'
+  #editor.disabled = false
+  #prevvalue = editor.value = model.get '_room.text'
+  editorvalue = prevValue = model.get '_room.text'
 
   replaceText = (newText, transformCursor) ->
     newSelection = [
       transformCursor editor.selectionStart
       transformCursor editor.selectionEnd
     ]
-    scrollTop = editor.scrollTop
-    editor.value = newText
-    editor.scrollTop = scrollTop if editor.scrollTop != scrollTop
-    [editor.selectionStart, editor.selectionEnd] = newSelection
+    #scrollTop = editor.scrollTop
+    #editor.value = newText
+    ui.model.set("code", newText)
+    ui.editor.cm.setValue(newText)
+
+    #editor.scrollTop = scrollTop if editor.scrollTop != scrollTop
+    #[editor.selectionStart, editor.selectionEnd] = newSelection
 
   model.on 'otInsert', '_room.text', (pos, text, isLocal) ->
     return if isLocal
-    replaceText editor.value[...pos] + text + editor.value[pos..], (cursor) ->
+    replaceText editorvalue[...pos] + text + editorvalue[pos..], (cursor) ->
       if pos <= cursor then cursor + text.length else cursor
 
   model.on 'otDel', '_room.text', (pos, text, isLocal) ->
     return if isLocal
-    replaceText editor.value[...pos] + editor.value[pos + text.length..], (cursor) ->
+    replaceText editorvalue[...pos] + editorvalue[pos + text.length..], (cursor) ->
       if pos < cursor then cursor - Math.min(text.length, cursor - pos) else cursor
 
   genOp = (e) ->
     setTimeout ->
-      if editor.value != prevValue
-        prevValue = editor.value
-        applyChange editor.value.replace /\r\n/g, '\n'
+      editorvalue = ui.model.get("code")
+      if editorvalue != prevValue
+        prevValue = editorvalue
+        applyChange editorvalue.replace /\r\n/g, '\n'
     , 0
 
+  ui.model.on("change:code", genOp)
+  
+  """
   for event in ['input', 'keydown', 'keyup', 'select', 'cut', 'paste']
     if editor.addEventListener
       editor.addEventListener event, genOp, false
     else
       editor.attachEvent 'on' + event, genOp
+  """

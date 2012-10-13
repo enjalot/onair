@@ -30,14 +30,13 @@ app.get '/:group', (req, res) ->
   model = store.createModel()
   model.subscribe "groups.#{req.params.group}", (err, room) ->
     model.ref '_room', room
-    room.otNull 'text', 'Edit this with friends.'
+    room.otNull 'text', ''
     # model.bundle waits for any pending model operations to complete and then
     # returns the JSON data for initialization on the client
     model.bundle (bundle) ->
       #TODO: use a template engine of some sort
       console.log(__dirname + '/../views/index.html')
       fs.readFile(__dirname + '/../views/index.html', 'utf8', (err, text) ->
-        console.log(text)
         html = text
         html +=  """
           <script>init=#{bundle}</script>

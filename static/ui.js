@@ -1,22 +1,24 @@
 (function() {
 
-var config = new tributary.Config();
+window.ui = {};
 
-var model = new tributary.CodeModel();
+ui.config = new tributary.Config();
 
-var context = new tributary.TributaryContext({
-  config: config,
-  model: model,
+ui.model = new tributary.CodeModel();
+
+ui.context = new tributary.TributaryContext({
+  config: ui.config,
+  model: ui.model,
   el: d3.select("#display").node()
 });
-context.render();
+ui.context.render();
 
 
-var editor = new tributary.Editor({
-  model: model,
+ui.editor = new tributary.Editor({
+  model: ui.model,
   el: d3.select("#editor").node()
 });
-editor.render();
+ui.editor.render();
 
 
 }());
