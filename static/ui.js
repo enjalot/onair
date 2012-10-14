@@ -16,6 +16,7 @@ ui.context = new tributary.TributaryContext({
   el: d3.select("#display").node()
 });
 ui.context.render();
+ui.context.execute();
 
 
 ui.editor = new tributary.Editor({
