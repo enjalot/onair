@@ -4,7 +4,7 @@ window.ui = {};
 
 ui.config = new tributary.Config();
 
-ui.model = new tributary.CodeModel();
+ui.model = new tributary.CodeModel({mode:"javascript"});
 
 ui.context = new tributary.TributaryContext({
   config: ui.config,

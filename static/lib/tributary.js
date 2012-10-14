@@ -14,6 +14,7 @@
       filename: "inlet.js",
       name: "inlet",
       type: "js",
+      mode: "javascript",
       config: {
         coffee: false,
         vim: false,
@@ -478,7 +479,7 @@
         "class": "editor"
       });
       this.cm = CodeMirror(this.el, {
-        mode: "javascript",
+        mode: that.model.get("mode"),
         theme: "lesser-dark",
         lineNumbers: true,
         onChange: function() {
