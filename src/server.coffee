@@ -42,9 +42,10 @@ app.get '/:group', (req, res) ->
       #TODO: use a template engine of some sort
       fs.readFile(__dirname + '/../views/index.html', 'utf8', (err, text) ->
         html = text
+        code = encodeURIComponent(room.get 'text')
         html +=  """
           <script>init=#{bundle}</script>
-          <script>var starttext="#{room.get 'text'}"</script>
+          <script>var starttext=decodeURIComponent("#{code}");</script>
           <script src="/static/ui.js"></script>
           <script src="script.js"></script>
           </body></html>
