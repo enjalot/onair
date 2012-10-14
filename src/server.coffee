@@ -30,16 +30,17 @@ app.get '/:group', (req, res) ->
   model = store.createModel()
   model.subscribe "groups.#{req.params.group}", (err, room) ->
     model.ref '_room', room
-    room.otNull 'text', ''
+    room.otNull 'text', "var svg = d3.select('svg')"
     # model.bundle waits for any pending model operations to complete and then
     # returns the JSON data for initialization on the client
     model.bundle (bundle) ->
       #TODO: use a template engine of some sort
-      console.log(__dirname + '/../views/index.html')
       fs.readFile(__dirname + '/../views/index.html', 'utf8', (err, text) ->
         html = text
         html +=  """
           <script>init=#{bundle}</script>
+          <script>var starttext="#{room.get 'text'}"</script>
+          <script src="/static/ui.js"></script>
           <script src="script.js"></script>
           </body></html>
           """

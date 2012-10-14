@@ -4,7 +4,11 @@ window.ui = {};
 
 ui.config = new tributary.Config();
 
-ui.model = new tributary.CodeModel({mode:"javascript"});
+console.log("start text", starttext)
+ui.model = new tributary.CodeModel({
+  code: starttext,
+  mode:"javascript"
+});
 
 ui.context = new tributary.TributaryContext({
   config: ui.config,
