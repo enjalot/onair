@@ -2,15 +2,17 @@
 
 window.ui = {};
 
-ui.config = new tributary.Config();
+var tb = Tributary();
 
-console.log("start text", starttext)
-ui.model = new tributary.CodeModel({
+ui.config = new tb.Config();
+
+//console.log("start text", starttext)
+ui.model = new tb.CodeModel({
   code: starttext,
   mode:"javascript"
 });
 
-ui.context = new tributary.TributaryContext({
+ui.context = new tb.TributaryContext({
   config: ui.config,
   model: ui.model,
   el: d3.select("#display").node()
@@ -19,7 +21,7 @@ ui.context.render();
 ui.context.execute();
 
 
-ui.editor = new tributary.Editor({
+ui.editor = new tb.Editor({
   model: ui.model,
   el: d3.select("#editor").node()
 });
