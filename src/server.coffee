@@ -5,9 +5,14 @@ racer = require 'racer'
 racer.use require 'racer/lib/ot'
 http = require 'http'
 
+
 app = express()
   .use(express.favicon())
   .use(gzip.staticGzip(__dirname))
+
+#local settings (for loading dev or production variables)
+require(__dirname + '/../local_settings.js')(app, express)
+
 server = http.createServer(app)
 
 store = racer.createStore
@@ -21,7 +26,7 @@ store.flush()
 racer.js entry: __dirname + '/client.js', (err, js) ->
   fs.writeFileSync __dirname + '/script.js', js
 
-app.use("/static", express.static(__dirname + '/../static'));
+app.use("/static", express.static(__dirname + '/../static'))
 
 app.get '/', (req, res) ->
   res.redirect '/racer'
