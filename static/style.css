@@ -1,4 +1,3 @@
-
 #display {
     position:absolute;
     top: 20px;
@@ -12,4 +11,14 @@
     right: 0px;
     width: 400px;
     height: 600px;
+}
+
+svg {
+    
+    position: fixed;
+    z-index: -999;
+    top: 0; left: 0;
+    
+    width: 100%;
+    height: 100%;
 }
