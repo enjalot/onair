@@ -11,7 +11,7 @@ app = express()
   .use(gzip.staticGzip(__dirname))
 
 #local settings (for loading dev or production variables)
-require(__dirname + '/../local_settings.js')(app, express)
+local_settings = require('../local_settings.js')
 
 server = http.createServer(app)
 
@@ -52,5 +52,5 @@ app.get '/:group', (req, res) ->
         res.send(html)
       )
       
-server.listen 3013
+server.listen local_settings.port
 console.log 'Go to http://localhost:3013/racer'
